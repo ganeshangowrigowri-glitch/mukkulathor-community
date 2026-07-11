@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  :focus-visible {
+    outline: 2px solid #cda339;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-sm2 px-4 py-2.5 text-sm font-semibold transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-navy-700 text-white hover:bg-navy-800;
+  }
+  .btn-gold {
+    @apply btn bg-gold-500 text-navy-900 hover:bg-gold-600;
+  }
+  .btn-outline {
+    @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+  }
+  .btn-ghost {
+    @apply btn text-navy-700 hover:bg-navy-50;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700;
+  }
+  .input-field {
+    @apply w-full min-h-[44px] rounded-sm2 border border-slate-300 bg-white px-3.5 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500 disabled:bg-slate-100 sm:text-sm;
+  }
+  .label-field {
+    @apply mb-1.5 block text-sm font-medium text-slate-600;
+  }
+  .card {
+    @apply rounded-lg border border-slate-200 bg-white shadow-card;
+  }
+  .section-eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-gold-600;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  .badge-green {
+    @apply badge bg-emerald-50 text-emerald-700;
+  }
+  .badge-amber {
+    @apply badge bg-amber-50 text-amber-700;
+  }
+  .badge-red {
+    @apply badge bg-red-50 text-red-700;
+  }
+  .badge-grey {
+    @apply badge bg-slate-100 text-slate-600;
+  }
+  .badge-navy {
+    @apply badge bg-navy-50 text-navy-700;
+  }
+}
