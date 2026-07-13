@@ -132,4 +132,4 @@ export default function DataTable({ columns, data = [], searchable = true, pageS
       )}
     </div>
   )
-}cat .gitignore
+}
