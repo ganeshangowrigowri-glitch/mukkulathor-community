@@ -29,22 +29,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/30 to-transparent sm:bg-gradient-to-r sm:from-navy-950/85 sm:via-navy-950/40 sm:to-transparent" />
         <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:py-0 lg:px-8">
           <div className="max-w-xl">
-            <p className="section-eyebrow text-gold-400">A matrimony platform for the Mukkulathor community</p>
-            <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              Find your life partner within a community you already trust
-            </h1>
-            <p className="mt-4 text-base text-slate-200 sm:text-lg">
-              Every profile is verified by a referee and approved by an administrator before it's visible —
-              so every introduction starts from a place of trust, not guesswork.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/register" className="btn-gold px-6 py-3 text-base">
-                Start Registration <ArrowRight size={17} />
-              </Link>
-              <a href="#why-matrimony" className="btn-outline border-white/30 bg-white/5 px-6 py-3 text-base text-white hover:bg-white/10">
-                How it works
-              </a>
-            </div>
           </div>
         </div>
       </section>
