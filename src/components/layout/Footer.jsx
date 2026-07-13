@@ -33,7 +33,7 @@ export default function Footer() {
           <h5 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gold-500">Contact</h5>
           <ul className="space-y-2.5 text-sm">
             <li className="flex items-center gap-2"><MapPin size={15} />Badulla,Uva,Sri Lanka</li>
-            <li className="flex items-center gap-2"><Mail size={15} /> contact@muthuraj429@gmail.com</li>
+            <li className="flex items-center gap-2"><Mail size={15} /> contact@sasatravel27@gmail.com</li>
             <li className="flex items-center gap-2"><Phone size={15} /> +94 773444462</li>
           </ul>
         </div>

@@ -39,7 +39,7 @@ export default function Contact() {
             <h3 className="font-display text-lg font-semibold text-navy-900">Union Admin</h3>
             <ul className="mt-4 space-y-3 text-sm text-slate-600">
               <li className="flex items-center gap-2"><MapPin size={16} className="text-gold-600" /> Badulla,Uva,Sri Lanka</li>
-              <li className="flex items-center gap-2"><Mail size={16} className="text-gold-600" /> contact@muthuraj429@gmail.com</li>
+              <li className="flex items-center gap-2"><Mail size={16} className="text-gold-600" /> contactsasatravel27@gmail.com</li>
               <li className="flex items-center gap-2"><Phone size={16} className="text-gold-600" /> +94 0773444462</li>
             </ul>
           </div>
