@@ -57,12 +57,12 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-linen-50">
       <div className="flex">
         <DashboardSidebar role={role} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <div className="flex min-h-screen flex-1 flex-col lg:pl-0">
-          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 sm:px-6">
+          <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-gold-200 bg-white px-4 sm:px-6">
             <button className="text-slate-500 lg:hidden" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
               <Menu size={22} />
             </button>
@@ -73,7 +73,7 @@ export default function DashboardLayout() {
                   {REGISTRATION_STATUS_LABELS[profile.registration_status]}
                 </Badge>
               )}
-              {profile?.family_id && <span className="font-mono text-xs text-slate-400">ID: {profile.family_id}</span>}
+              {profile?.family_id && <span className="font-mono text-xs text-slate-500">ID: {profile.family_id}</span>}
             </div>
 
             <div className="flex items-center gap-4">
@@ -89,11 +89,11 @@ export default function DashboardLayout() {
                   )}
                 </button>
                 {notifOpen && (
-                  <div className="absolute right-0 mt-2 w-[88vw] max-w-80 rounded-lg border border-slate-200 bg-white shadow-lifted">
+                  <div className="absolute right-0 mt-2 w-[88vw] max-w-80 rounded-xl border border-slate-200 bg-white shadow-lifted">
                     <div className="border-b border-slate-100 px-4 py-3 text-sm font-semibold text-navy-900">Notifications</div>
                     <div className="max-h-80 overflow-y-auto">
                       {notifications.length === 0 ? (
-                        <p className="px-4 py-6 text-center text-sm text-slate-400">You're all caught up.</p>
+                        <p className="px-4 py-6 text-center text-sm text-slate-500">You're all caught up.</p>
                       ) : (
                         notifications.map((n) => (
                           <div key={n.id} className="border-b border-slate-50 px-4 py-3 text-sm last:border-none">
@@ -110,9 +110,9 @@ export default function DashboardLayout() {
               <div ref={menuRef} className="flex items-center gap-2">
                 <div className="hidden text-right sm:block">
                   <p className="text-sm font-medium text-slate-800">{profile?.full_name}</p>
-                  <p className="text-xs capitalize text-slate-400">{role}</p>
+                  <p className="text-xs capitalize text-slate-500">{role}</p>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-700 text-sm font-semibold text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-700 text-sm font-semibold text-white ring-2 ring-gold-300">
                   {profile?.full_name?.[0]?.toUpperCase() ?? '?'}
                 </div>
                 <button onClick={handleSignOut} className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-red-500" aria-label="Log out">

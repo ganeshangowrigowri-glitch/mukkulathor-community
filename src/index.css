@@ -6,11 +6,17 @@
   html {
     scroll-behavior: smooth;
   }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
   body {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Inter', 'Noto Sans Tamil', system-ui, sans-serif;
+    @apply bg-linen-50 text-slate-800;
   }
   h1, h2, h3, h4, .font-display {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Cormorant Garamond', 'Noto Serif Tamil', serif;
   }
   :focus-visible {
     outline: 2px solid #cda339;
@@ -22,15 +28,27 @@
   .btn {
     @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-sm2 px-4 py-2.5 text-sm font-semibold transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2;
   }
-  .btn-primary {
+    .btn-primary {
     @apply btn bg-navy-700 text-white hover:bg-navy-800;
+    border: 1px solid rgba(205, 163, 57, 0.4);
+  }
   }
   .btn-gold {
-    @apply btn bg-gold-500 text-navy-900 hover:bg-gold-600;
+    @apply btn bg-gold-400 text-navy-950 hover:bg-gold-300;
   }
   .btn-outline {
     @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
   }
+  /* NEW — outline button for use on dark maroon backgrounds (hero, CTA, footer) */
+   .btn-outline-light {
+    @apply btn text-linen-100 focus-visible:ring-offset-navy-950;
+    border: 1px solid rgba(205, 163, 57, 0.6);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
   .btn-ghost {
     @apply btn text-navy-700 hover:bg-navy-50;
   }
@@ -44,10 +62,11 @@
     @apply mb-1.5 block text-sm font-medium text-slate-600;
   }
   .card {
-    @apply rounded-lg border border-slate-200 bg-white shadow-card;
+    @apply rounded-xl border border-slate-200 bg-white shadow-card;
   }
+  /* Eyebrow: sans instead of mono, no forced uppercase (uppercase doesn't exist in Tamil) */
   .section-eyebrow {
-    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-gold-600;
+    @apply font-sans text-sm font-semibold tracking-wide text-gold-700;
   }
   .badge {
     @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold;
@@ -66,5 +85,70 @@
   }
   .badge-navy {
     @apply badge bg-navy-50 text-navy-700;
+  }
+
+
+/* ==========================================================================
+   Stitch "Royal Lineage & Heritage" theme — PUBLIC PAGES ONLY.
+   Everything below is scoped under `.public-theme` (applied by PublicLayout),
+   so the member / referee / admin dashboards are not affected.
+   ========================================================================== */
+@layer components {
+  .public-theme {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', system-ui, sans-serif;
+    background-color: #fcf9f3;
+    color: #1c1c18;
+  }
+  .public-theme h1,
+  .public-theme h2,
+  .public-theme h3,
+  .public-theme h4,
+  .public-theme .font-display {
+    font-family: 'Syne', 'Noto Sans Tamil', system-ui, sans-serif;
+    letter-spacing: -0.01em;
+  }
+  .public-theme :focus-visible {
+    outline-color: #C89B3C;
+  }
+
+  /* Buttons */
+  .public-theme .btn {
+    @apply rounded-lg;
+  }
+  .public-theme .btn-primary {
+    @apply bg-royal-maroon text-white hover:bg-royal-maroon-deep;
+    border: 1px solid rgba(200, 155, 60, 0.4);
+    box-shadow: 0 1px 2px rgba(34, 6, 8, 0.12);
+  }
+  .public-theme .btn-gold {
+    @apply bg-royal-gold text-royal-dark hover:bg-royal-gold-light;
+  }
+  .public-theme .btn-ghost {
+    @apply text-royal-maroon hover:bg-royal-high;
+  }
+  .public-theme .btn-outline {
+    @apply border-royal-gold/40 text-royal-maroon hover:bg-royal-low;
+  }
+  .public-theme .btn-outline-light {
+    border-color: rgba(229, 195, 120, 0.55);
+  }
+
+  /* Surfaces & form fields */
+  .public-theme .card {
+    @apply rounded-xl bg-white shadow-royal-1;
+    border: 1px solid rgba(200, 155, 60, 0.22);
+  }
+  .public-theme .input-field {
+    @apply rounded-lg border-royal-highest bg-royal-low focus:border-royal-maroon focus:ring-royal-maroon;
+  }
+  .public-theme .label-field {
+    @apply text-royal-ink-soft;
+  }
+  .public-theme .section-eyebrow {
+    @apply text-royal-gold-dark;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 }

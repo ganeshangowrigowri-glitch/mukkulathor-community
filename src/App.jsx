@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './routes/ProtectedRoute'
 import RoleRoute from './routes/RoleRoute'
+import RequireApprovedMember from './routes/RequireApprovedMember'
 import ApprovedRoute from './routes/ApprovedRoute'
 import PageLoader from './components/ui/PageLoader'
 
@@ -16,7 +17,6 @@ import EventsPublic from './pages/public/EventsPublic'
 import GalleryPublic from './pages/public/GalleryPublic'
 import Contact from './pages/public/Contact'
 import Login from './pages/public/Login'
-import Register from './pages/public/Register'
 
 import RegistrationWizard from './components/registration/RegistrationWizard'
 import DashboardLayout from './components/layout/DashboardLayout'
@@ -89,7 +89,7 @@ export default function App() {
           <Route path="/gallery" element={<GalleryPublic />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Navigate to="/login" replace />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
 
@@ -121,12 +121,21 @@ export default function App() {
               <Route path="/member/gallery" element={<Suspense fallback={<PageLoader />}><Gallery /></Suspense>} />
               <Route path="/member/community" element={<Suspense fallback={<PageLoader />}><CommunityDetails /></Suspense>} />
             </Route>
-            <Route path="/member/profile" element={<Suspense fallback={<PageLoader />}><MemberProfile /></Suspense>} />
-            <Route path="/member/edit-profile" element={<Suspense fallback={<PageLoader />}><EditProfile /></Suspense>} />
-            <Route path="/member/status" element={<Suspense fallback={<PageLoader />}><MembershipStatus /></Suspense>} />
+                         <Route path="/member/status" element={<Suspense fallback={<PageLoader />}><MembershipStatus /></Suspense>} />
             <Route path="/member/notifications" element={<Suspense fallback={<PageLoader />}><Notifications /></Suspense>} />
             <Route path="/member/settings" element={<Suspense fallback={<PageLoader />}><Settings /></Suspense>} />
 
+            <Route element={<RequireApprovedMember />}>
+              <Route path="/member/dashboard" element={<Suspense fallback={<PageLoader />}><MemberDashboard /></Suspense>} />
+              <Route path="/member/profile" element={<Suspense fallback={<PageLoader />}><MemberProfile /></Suspense>} />
+              <Route path="/member/edit-profile" element={<Suspense fallback={<PageLoader />}><EditProfile /></Suspense>} />
+              <Route path="/member/community" element={<Suspense fallback={<PageLoader />}><CommunityDetails /></Suspense>} />
+              <Route path="/member/family-tree" element={<Suspense fallback={<PageLoader />}><FamilyTree /></Suspense>} />
+              <Route path="/member/family-members" element={<Suspense fallback={<PageLoader />}><FamilyMembers /></Suspense>} />
+              <Route path="/member/events" element={<Suspense fallback={<PageLoader />}><MemberEvents /></Suspense>} />
+              <Route path="/member/notices" element={<Suspense fallback={<PageLoader />}><Notices /></Suspense>} />
+              <Route path="/member/gallery" element={<Suspense fallback={<PageLoader />}><Gallery /></Suspense>} />
+            </Route>
             {/* ---------------- Referee Dashboard (Module 4) ---------------- */}
             <Route element={<RoleRoute allow={['referee', 'admin']} />}>
               <Route path="/referee/dashboard" element={<Suspense fallback={<PageLoader />}><RefereeDashboard /></Suspense>} />

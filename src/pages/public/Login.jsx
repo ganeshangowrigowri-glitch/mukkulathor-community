@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import Input from '../../components/ui/Input'
 
 export default function Login() {
-  const { signIn } = useAuth()
+  const { loginOrRegister } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ fullName: '', email: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -17,42 +17,24 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const { data, error } = await signIn(form)
+    const { data, error } = await loginOrRegister(form)
+    if (error) { setLoading(false); setError(error.message); return }
 
-    if (error) {
-      setLoading(false)
-      setError(error.message)
-      return
-    }
-
-    // Route by current registration status / role so a draft applicant lands
-    // back in the wizard instead of an empty dashboard.
+    const userId = data.session?.user?.id ?? data.user?.id
     const { data: profile } = await supabase
-      .from('profiles')
-      .select('registration_status, role_id')
-      .eq('id', data.user.id)
-      .single()
+      .from('profiles').select('registration_status, role_id').eq('id', userId).single()
 
     setLoading(false)
-    toast.success('Welcome back!')
+    toast.success(data.isNew ? "You're in! Let's complete your registration." : 'Welcome back!')
 
     const explicitRedirect = location.state?.from?.pathname
-    if (explicitRedirect && explicitRedirect !== '/login') {
-      navigate(explicitRedirect, { replace: true })
-      return
-    }
+    if (explicitRedirect && explicitRedirect !== '/login') { navigate(explicitRedirect, { replace: true }); return }
 
-    if (!profile || profile.registration_status === 'draft') {
-      navigate('/member/register', { replace: true })
-    } else if (['pending_referee_verification', 'pending_admin_approval', 'rejected', 'suspended'].includes(profile.registration_status)) {
-      navigate('/member/status', { replace: true })
-    } else if (profile.role_id === 3) {
-      navigate('/admin/dashboard', { replace: true })
-    } else if (profile.role_id === 2) {
-      navigate('/referee/dashboard', { replace: true })
-    } else {
-      navigate('/member/dashboard', { replace: true })
-    }
+    if (!profile || profile.registration_status === 'draft') navigate('/member/register', { replace: true })
+    else if (['pending_referee_verification', 'pending_admin_approval', 'rejected', 'suspended'].includes(profile.registration_status)) navigate('/member/status', { replace: true })
+    else if (profile.role_id === 3) navigate('/admin/dashboard', { replace: true })
+    else if (profile.role_id === 2) navigate('/referee/dashboard', { replace: true })
+    else navigate('/member/dashboard', { replace: true })
   }
 
   return (
@@ -64,24 +46,19 @@ export default function Login() {
             <path d="M32 12v10M32 22 L20 34 M32 22 L44 34 M20 34 V46 M44 34 V46" stroke="#cda339" strokeWidth="2.5" fill="none" strokeLinecap="round" />
           </svg>
           <h1 className="mt-4 font-display text-2xl font-semibold text-navy-900">Member Login</h1>
-          <p className="mt-1 text-sm text-slate-500">Sign in to your Sri Lanka Mukkulathor Unity account</p>
+          <p className="mt-1 text-sm text-slate-500">
+            Enter your full name and email. New here? We'll set up your account automatically — no password needed.
+          </p>
         </div>
-
         <form onSubmit={handleSubmit} className="card space-y-4 p-6">
           {error && <div className="rounded-sm2 bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>}
+          <Input label="Full Name" required value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
           <Input label="Email Address" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-          <Input label="Password" type="password" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
           <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-            {loading ? 'Signing in…' : 'Sign In'}
+            {loading ? 'Continuing…' : 'Continue'}
           </button>
+          <p className="text-center text-xs text-slate-400">Returning members: use the exact name and email your account was created with.</p>
         </form>
-
-        <p className="mt-6 text-center text-sm text-slate-500">
-          New to the community?{' '}
-          <Link to="/register" className="font-medium text-navy-700 hover:underline">
-            Start your registration
-          </Link>
-        </p>
       </div>
     </div>
   )

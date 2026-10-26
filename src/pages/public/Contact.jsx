@@ -36,16 +36,16 @@ export default function Contact() {
 
         <div className="space-y-6">
           <div className="card p-6">
-            <h3 className="font-display text-lg font-semibold text-navy-900">Union Admin</h3>
+            <h3 className="font-display text-xl font-semibold text-navy-900">Union Admin</h3>
             <ul className="mt-4 space-y-3 text-sm text-slate-600">
-              <li className="flex items-center gap-2"><MapPin size={16} className="text-gold-600" /> Badulla,Uva,Sri Lanka</li>
-              <li className="flex items-center gap-2"><Mail size={16} className="text-gold-600" /> contactsasatravel27@gmail.com</li>
-              <li className="flex items-center gap-2"><Phone size={16} className="text-gold-600" /> +94 0773444462</li>
+              <li className="flex items-center gap-2"><MapPin size={16} className="text-gold-700" /> Badulla, Uva, Sri Lanka</li>
+              <li className="flex items-center gap-2"><Mail size={16} className="text-gold-700" /> contactsasatravel27@gmail.com</li>
+              <li className="flex items-center gap-2"><Phone size={16} className="text-gold-700" /> +94 0773444462</li>
             </ul>
           </div>
-          <div className="card p-6">
-            <h3 className="font-display text-lg font-semibold text-navy-900">Want to become a referee?</h3>
-            <p className="mt-2 text-sm text-slate-500">
+          <div className="card border-l-4 border-l-gold-400 p-6">
+            <h3 className="font-display text-xl font-semibold text-navy-900">Want to become a referee?</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-500">
               Referees are approved members designated by the administrator. Reach out to the community office to
               express interest after your own membership is approved.
             </p>

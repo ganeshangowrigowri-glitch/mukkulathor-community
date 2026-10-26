@@ -7,10 +7,10 @@ const Select = forwardRef(function Select({ label, error, required, options = []
     <div className={className}>
       {label && (
         <label htmlFor={inputId} className="label-field">
-          {label} {required && <span className="text-gold-600">*</span>}
+          {label} {required && <span className="text-gold-700">*</span>}
         </label>
       )}
-      <select ref={ref} id={inputId} className={clsx('input-field', error && 'border-red-400')} {...props}>
+      <select ref={ref} id={inputId} className={clsx('input-field', error && 'border-red-400 focus:ring-red-400')} {...props}>
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

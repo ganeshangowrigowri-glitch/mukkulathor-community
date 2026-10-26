@@ -96,41 +96,44 @@ export default function Objectives() {
     <div>
       <PageHero eyebrow="Our purpose" title="Objectives" description="What this platform is built to achieve for the community." />
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <ul className="space-y-4">
+        <ul className="space-y-3">
           {OBJECTIVES.map((o, i) => (
-            <li key={o.text} className="flex items-start gap-3">
-              <CheckCircle2 className="mt-0.5 shrink-0 text-gold-600" size={20} />
+            <li key={o.text} className="flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4">
+              <CheckCircle2 className="mt-0.5 shrink-0 text-gold-700" size={20} />
               <div className="w-full">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600">{o.text}</span>
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-slate-700">{o.text}</span>
                   {o.details && (
                     <button
                       type="button"
                       onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                      className="ml-4 text-sm text-gold-600 hover:underline"
+                      aria-expanded={openIndex === i}
+                      className="shrink-0 text-sm font-medium text-gold-700 hover:underline"
                     >
                       {openIndex === i ? 'Show less' : 'Read more'}
                     </button>
                   )}
                 </div>
-                {openIndex === i && o.details && <div className="mt-2 text-slate-600">{o.details}</div>}
+                {openIndex === i && o.details && (
+                  <div className="mt-1 text-sm leading-relaxed text-slate-600">{o.details}</div>
+                )}
               </div>
             </li>
           ))}
         </ul>
 
-        <div className="mt-8 text-slate-600">
-          <h3 className="text-lg font-semibold">Our Vision</h3>
-          <p className="mt-2">
+        <div className="mt-12">
+          <h3 className="font-display text-2xl font-semibold text-navy-900">Our Vision</h3>
+          <p className="mt-2 leading-relaxed text-slate-600">
             To build the Sri Lankan Mukkulathor community into a united, progressive, and respected community by
             promoting transparency, unity, education, economic empowerment, cultural heritage, and dedicated
             service to future generations.
           </p>
         </div>
 
-        <div className="mt-8 text-slate-600">
-          <h3 className="text-lg font-semibold">Our Core Mission</h3>
-          <p className="mt-2">
+        <div className="mt-8 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 px-8 py-10 text-center">
+          <h3 className="font-display text-2xl font-semibold text-gold-300">Our Core Mission</h3>
+          <p className="mt-3 font-display text-2xl text-white">
             "Unity in Three Clans. Service to the Community. Pride in Our Heritage."
           </p>
         </div>

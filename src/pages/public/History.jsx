@@ -96,12 +96,12 @@ export default function History() {
     <div>
       <PageHero eyebrow="Heritage" title="Community History" description="A continuing thread from the Sangam era to today's verified registry." />
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <ol className="relative space-y-10 border-l-2 border-slate-200 pl-8">
+        <ol className="relative space-y-12 border-l-2 border-navy-200 pl-8">
           {TIMELINE.map((t, i) => (
             <li key={t.era} className="relative">
-              <span className="absolute -left-[41px] top-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-gold-500 bg-white" />
-              <p className="font-mono text-xs uppercase tracking-wide text-gold-600">{t.era}</p>
-              <p className="mt-1 text-slate-600">{t.text}</p>
+              <span className="absolute -left-[41px] top-1.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-gold-500 bg-linen-50" />
+              <h3 className="font-display text-2xl font-semibold text-navy-900">{t.era}</h3>
+              <p className="mt-2 leading-relaxed text-slate-600">{t.text}</p>
 
               <div className="mt-3">
                 {t.details && (
@@ -109,18 +109,23 @@ export default function History() {
                     <button
                       type="button"
                       onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                      className="text-sm text-gold-600 hover:underline"
+                      aria-expanded={openIndex === i}
+                      className="text-sm font-medium text-gold-700 hover:underline"
                     >
                       {openIndex === i ? 'Show less' : 'Read more'}
                     </button>
-                    {openIndex === i && <div className="mt-3 text-sm text-slate-600">{t.details}</div>}
+                    {openIndex === i && (
+                      <div className="mt-3 rounded-xl border border-slate-200 bg-white p-5 text-sm leading-relaxed text-slate-600">
+                        {t.details}
+                      </div>
+                    )}
                   </>
                 )}
               </div>
             </li>
           ))}
         </ol>
-        <p className="mt-10 text-sm text-slate-400">
+        <p className="mt-10 text-sm text-slate-500">
           This is a general overview. Communities are encouraged to contribute documented family histories and
           oral traditions through the Heritage Documentation Drive listed on the Events page.
         </p>

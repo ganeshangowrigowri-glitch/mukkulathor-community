@@ -25,16 +25,16 @@ export default function EventsPublic() {
           <div className="grid gap-6 sm:grid-cols-2">
             {events.map((e) => (
               <div key={e.id} className="card overflow-hidden p-0">
-                <div className="flex items-center justify-between bg-navy-900 px-5 py-3 text-white">
-                  <span className="font-mono text-xs uppercase tracking-wide text-gold-400">{e.category}</span>
+                <div className="flex items-center justify-between bg-gradient-to-r from-navy-900 to-navy-800 px-5 py-3 text-white">
+                  <span className="text-sm font-semibold capitalize text-gold-300">{e.category}</span>
                   <span className="text-sm font-semibold">
                     {new Date(e.event_date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                 </div>
                 <div className="p-5">
-                  <h3 className="font-display text-lg font-semibold text-navy-900">{e.title}</h3>
-                  <p className="mt-1.5 text-sm text-slate-500">{e.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-400">
+                  <h3 className="font-display text-xl font-semibold text-navy-900">{e.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{e.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
                     {e.start_time && <span className="flex items-center gap-1"><Clock size={13} /> {e.start_time}</span>}
                     {e.location && <span className="flex items-center gap-1"><MapPin size={13} /> {e.location}</span>}
                   </div>

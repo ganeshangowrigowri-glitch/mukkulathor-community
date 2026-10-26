@@ -6,12 +6,14 @@ export default function Modal({ open, onClose, title, children, footer, size = '
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/50 p-4" onClick={onClose}>
       <div
-        className={`w-full ${widths[size]} max-h-[90vh] overflow-y-auto rounded-lg bg-white shadow-lifted`}
+        role="dialog"
+        aria-modal="true"
+        className={`w-full ${widths[size]} max-h-[90vh] overflow-y-auto rounded-xl border border-gold-200 bg-white shadow-lifted`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-          <h3 className="font-display text-lg font-semibold text-navy-900">{title}</h3>
-          <button onClick={onClose} aria-label="Close" className="flex h-9 w-9 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+        <div className="flex items-center justify-between border-b border-gold-200 px-6 py-4">
+          <h3 className="font-display text-xl font-semibold text-navy-900">{title}</h3>
+          <button onClick={onClose} aria-label="Close" className="flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-700">
             <X size={18} />
           </button>
         </div>

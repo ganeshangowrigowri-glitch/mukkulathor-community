@@ -17,9 +17,9 @@ export default function SocietiesSection({ variant = 'public' }) {
   const grid = (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {loading
-        ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="aspect-[4/3] w-full rounded-lg" />)
+        ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="aspect-[4/3] w-full rounded-xl" />)
         : societies.map((s, i) => (
-            <FadeIn key={s.id} delay={i * 30} className="overflow-hidden rounded-lg border border-slate-200">
+            <FadeIn key={s.id} delay={i * 30} className="overflow-hidden rounded-xl border border-slate-200 bg-white">
               <div className="aspect-[4/3] w-full bg-slate-100">
                 {s.image_url ? (
                   <img src={s.image_url} alt={s.name} className="h-full w-full object-cover" />
@@ -28,7 +28,7 @@ export default function SocietiesSection({ variant = 'public' }) {
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-display text-base font-semibold text-navy-900">{s.name}</h3>
+                <h3 className="font-display text-lg font-semibold text-navy-900">{s.name}</h3>
                 {s.description && <p className="mt-1 line-clamp-2 text-sm text-slate-500">{s.description}</p>}
                 {s.website_url && (
                   <a href={s.website_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-navy-700 hover:underline">
@@ -46,7 +46,7 @@ export default function SocietiesSection({ variant = 'public' }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <p className="section-eyebrow">Beyond the registry</p>
-      <h2 className="mt-2 max-w-2xl font-display text-3xl font-semibold text-navy-900">Connected Societies</h2>
+      <h2 className="mt-2 max-w-2xl font-display text-3xl font-semibold text-navy-900 sm:text-4xl">Connected Societies</h2>
       <div className="mt-10">{grid}</div>
     </section>
   )

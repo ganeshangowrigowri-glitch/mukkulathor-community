@@ -66,7 +66,7 @@ export default function DashboardSidebar({ role, open, onClose }) {
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex h-16 items-center gap-2.5 border-b border-slate-100 px-5">
+       <div className="flex h-16 items-center gap-2.5 border-b border-gold-200 px-5">
           <svg width="28" height="28" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#173d5c"/><path d="M32 12v10M32 22 L20 34 M32 22 L44 34 M20 34 V46 M44 34 V46" stroke="#cda339" strokeWidth="2.5" fill="none" strokeLinecap="round"/></svg>
           <span className="font-display text-base font-semibold text-navy-900">Mukkulathor</span>
         </div>

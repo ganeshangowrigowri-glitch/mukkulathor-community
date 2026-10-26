@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { supabase } from '../lib/supabaseClient'
-
+import { loginOrRegister as loginOrRegisterRequest } from '../services/passwordlessAuth'
 const AuthContext = createContext(undefined)
 
 export function AuthProvider({ children }) {
@@ -60,23 +60,12 @@ export function AuthProvider({ children }) {
     return Promise.resolve()
   }, [session, fetchProfile])
 
-  const signUp = useCallback(async ({ email, password, fullName, mobile }) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName, mobile },
-        emailRedirectTo: `${window.location.origin}/login`,
-      },
-    })
-    return { data, error }
-  }, [])
 
-  const signIn = useCallback(async ({ email, password }) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    return { data, error }
-  }, [])
 
+ const loginOrRegister = useCallback(async ({ fullName, email }) => {
+  const { data, error } = await loginOrRegisterRequest({ fullName, email })
+  return { data, error }
+}, [])
   const signOut = useCallback(async () => {
     await supabase.auth.signOut()
     setProfile(null)
@@ -88,10 +77,9 @@ export function AuthProvider({ children }) {
     profile,
     role: profile?.roles?.name ?? null,
     loading,
-    signUp,
-    signIn,
     signOut,
     refreshProfile,
+    loginOrRegister,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

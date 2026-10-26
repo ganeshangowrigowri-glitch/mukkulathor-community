@@ -47,14 +47,14 @@ export default function Register() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-slate-50 px-4 py-16">
+    <div className="flex min-h-[80vh] items-center justify-center bg-linen-50 px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <svg width="44" height="44" viewBox="0 0 64 64" className="mx-auto">
-            <rect width="64" height="64" rx="10" fill="#173d5c" />
+          <svg width="44" height="44" viewBox="0 0 64 64" className="mx-auto" aria-hidden="true">
+            <rect width="64" height="64" rx="10" fill="#3d0f0f" />
             <path d="M32 12v10M32 22 L20 34 M32 22 L44 34 M20 34 V46 M44 34 V46" stroke="#cda339" strokeWidth="2.5" fill="none" strokeLinecap="round" />
           </svg>
-          <h1 className="mt-4 font-display text-2xl font-semibold text-navy-900">Create Your Account</h1>
+          <h1 className="mt-4 font-display text-3xl font-semibold text-navy-900">Create Your Account</h1>
           <p className="mt-1 text-sm text-slate-500">
             Step 1 of joining the registry — after verifying your email, you'll complete a 6-step membership form.
           </p>

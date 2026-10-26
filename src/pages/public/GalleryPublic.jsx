@@ -24,9 +24,9 @@ export default function GalleryPublic() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {items.map((g) => (
-              <figure key={g.id} className="group overflow-hidden rounded-lg border border-slate-200">
-                <img src={g.image_url} alt={g.title || 'Community photo'} className="h-44 w-full object-cover transition-transform group-hover:scale-105" />
-                {g.title && <figcaption className="px-3 py-2 text-xs text-slate-500">{g.title}</figcaption>}
+              <figure key={g.id} className="group overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <img src={g.image_url} alt={g.title || 'Community photo'} className="h-44 w-full object-cover transition-transform motion-reduce:transform-none group-hover:scale-105" />
+                {g.title && <figcaption className="px-3 py-2 text-sm text-slate-600">{g.title}</figcaption>}
               </figure>
             ))}
           </div>
