@@ -34,13 +34,13 @@ const PILLARS = [
   { icon: CalendarDays, title: 'Events & Notices', desc: 'Stay informed about gatherings, heritage drives, and community announcements.' },
 ]
 
-// `ta` = Tamil name (please verify spellings). `image` is optional: put a file in
-// public/images/branches/ and set e.g. '/images/branches/kallar.jpg'. Without an
-// image the card shows the Tamil name on maroon instead.
+
+// public/images/branches/ and set 
+
 const BRANCHES = [
-  { name: 'Kallar', ta: 'கள்ளர்', image: null, desc: 'Historically associated with martial valor and land stewardship across the southern Tamil plains.' },
-  { name: 'Maravar', ta: 'மறவர்', image: null, desc: 'Long recognized for warrior traditions and leadership in the coastal and delta regions.' },
-  { name: 'Agamudayar', ta: 'அகமுடையார்', image: null, desc: 'Known for administrative and agrarian heritage spanning generations of family lineages.' },
+  { name: 'Kallar', ta: 'கள்ளர்', image: '/images/branches/kallar.jpg', desc: 'Historically associated with martial valor and land stewardship across the southern Tamil plains.' },
+  { name: 'Maravar', ta: 'மறவர்', image: '/images/branches/maravar.jpg', desc: 'Long recognized for warrior traditions and leadership in the coastal and delta regions.' },
+  { name: 'Agamudayar', ta: 'அகமுடையார்', image: '/images/branches/agamudayar.jpg', desc: 'Known for administrative and agrarian heritage spanning generations of family lineages.' },
 ]
 
 // These mirror the six steps of the registration wizard, in order.
@@ -59,7 +59,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-linen-100">
         <div
-          aria-hidden="true"
+          aria-hidden="true" 
           className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-gold-500/15 blur-3xl"
         />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8 lg:py-24">

@@ -19,6 +19,15 @@ import UploadsSection from './sections/UploadsSection'
 const MIN_REFEREES = 1
 const MAX_REFEREES = 5
 
+// Small "1 / 7" tag shown on the top edge of each form card (design only).
+function SectionBadge({ n, total }) {
+  return (
+    <span className="absolute -top-3 left-6 rounded-full border border-royal-gold bg-royal-maroon px-3 py-0.5 text-[11px] font-bold tracking-wide text-white">
+      {n} / {total}
+    </span>
+  )
+}
+
 export default function RegistrationWizard() {
   const { profile, refreshProfile } = useAuth()
   const navigate = useNavigate()
@@ -251,38 +260,62 @@ export default function RegistrationWizard() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="font-display text-2xl font-semibold text-navy-900">Membership Registration</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Complete the form below and submit it for referee verification. This follows the same layout as the
-        official registration form.
-      </p>
+      <div className="rounded-2xl border border-royal-gold/30 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 px-6 py-8 text-linen-100 sm:px-10 sm:py-10">
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-royal-gold-light">Join the registry</p>
+        <h1 className="mt-2 font-headline text-3xl font-bold text-white sm:text-4xl">Membership Registration</h1>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-linen-100/80">
+          Complete the form below and submit it for referee verification. This follows the same layout as the
+          official registration form.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-lg bg-white/10 p-4">
+            <p className="text-xs font-bold uppercase tracking-wide text-royal-gold-light">Have ready</p>
+            <p className="mt-1 text-sm leading-relaxed text-linen-100/85">Your profile photo, family photos and supporting documents.</p>
+          </div>
+          <div className="rounded-lg bg-white/10 p-4">
+            <p className="text-xs font-bold uppercase tracking-wide text-royal-gold-light">Referees</p>
+            <p className="mt-1 text-sm leading-relaxed text-linen-100/85">Choose {MIN_REFEREES} to {MAX_REFEREES} referees who can verify you.</p>
+          </div>
+          <div className="rounded-lg bg-white/10 p-4">
+            <p className="text-xs font-bold uppercase tracking-wide text-royal-gold-light">What happens next</p>
+            <p className="mt-1 text-sm leading-relaxed text-linen-100/85">Your referees verify you, then the admin approves your membership.</p>
+          </div>
+        </div>
+      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-10">
-        <section className="card p-6 sm:p-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-10 pb-10">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={1} total={7} />
           <LineageSection register={register} control={control} title="Your Family Lineage" />
         </section>
 
-        <section className="card p-6 sm:p-8">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={2} total={7} />
           <PersonalDetailsSection register={register} errors={errors} />
         </section>
 
-        <section className="card p-6 sm:p-8">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={3} total={7} />
           <ProfessionalEducationSection register={register} control={control} />
         </section>
 
-        <section className="card p-6 sm:p-8">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={4} total={7} />
           <VisionSection control={control} />
         </section>
 
-        <section className="card p-6 sm:p-8">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={5} total={7} />
           <MarriageChildrenSection register={register} control={control} />
         </section>
 
-        <section id="referees-section" className="card p-6 sm:p-8">
+        <section id="referees-section" className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={6} total={7} />
           <RefereesSection selected={selectedReferees} onChange={setSelectedReferees} error={refereeError} />
         </section>
 
-        <section className="card p-6 sm:p-8">
+        <section className="card relative p-6 pt-8 sm:p-8 sm:pt-10">
+          <SectionBadge n={7} total={7} />
           <UploadsSection
             profile={localProfile}
             onProfilePhoto={setProfilePhoto}
@@ -291,7 +324,10 @@ export default function RegistrationWizard() {
           />
         </section>
 
-        <div className="flex justify-end pb-10">
+        <div className="sticky bottom-4 z-10 flex flex-col gap-3 rounded-xl border border-royal-gold/40 bg-white/95 p-4 shadow-lg backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-royal-ink-soft">
+            When you submit, your registration is sent to your chosen referees for verification.
+          </p>
           <button type="submit" disabled={submitting} className="btn-gold w-full sm:w-auto">
             {submitting ? 'Submitting…' : 'Submit Registration'}
           </button>
@@ -299,4 +335,4 @@ export default function RegistrationWizard() {
       </form>
     </div>
   )
-}
+} 
