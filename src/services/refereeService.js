@@ -1,12 +1,17 @@
 import { supabase } from '../lib/supabaseClient'
 
+/** Active referees for the registration picker. Uses a narrow RPC (names only)
+ * so members never need read access to other members' profile rows. The result
+ * is mapped back to the shape RefereesSection already expects. */
 export async function listActiveReferees() {
-  const { data, error } = await supabase
-    .from('referees')
-    .select('id, designation, region, profiles(id, full_name, branch, district)')
-    .eq('is_active', true)
+  const { data, error } = await supabase.rpc('list_active_referees')
   if (error) throw error
-  return data
+  return (data ?? []).map((r) => ({
+    id: r.id,
+    designation: r.designation,
+    region: r.region,
+    profiles: { full_name: r.full_name, branch: r.branch, district: r.district },
+  }))
 }
 
 /** Submits the registration: creates referee_recommendations + notifications via RPC,
@@ -44,13 +49,16 @@ export async function decideRecommendation(recommendationId, status, comments) {
   if (error) throw error
 }
 
+/** The applicant's own recommendations (or any applicant's, for admins) with
+ * referee names, via RPC. Mapped to the { referees: { profiles: { full_name } } }
+ * shape MembershipStatus already reads. */
 export async function getRecommendationsForApplicant(applicantId) {
-  const { data, error } = await supabase
-    .from('referee_recommendations')
-    .select('*, referees(id, profiles(full_name))')
-    .eq('applicant_id', applicantId)
+  const { data, error } = await supabase.rpc('get_recommendations_for_applicant', { p_applicant_id: applicantId })
   if (error) throw error
-  return data
+  return (data ?? []).map(({ referee_name, ...rec }) => ({
+    ...rec,
+    referees: { id: rec.referee_id, profiles: { full_name: referee_name } },
+  }))
 }
 
 /** Full applicant detail bundle for the referee review modal — profile,

@@ -34,9 +34,7 @@ export async function getMemberStatusHistory(profileId) {
 }
 
 export async function searchApprovedMembers(query) {
-  let q = supabase.from('profiles').select('id, full_name, branch, district, village, family_id, profile_photo_url').eq('registration_status', 'approved')
-  if (query) q = q.ilike('full_name', `%${query}%`)
-  const { data, error } = await q.limit(50)
+  const { data, error } = await supabase.rpc('search_member_directory', { p_query: query || null, p_limit: 50 })
   if (error) throw error
   return data
 }
