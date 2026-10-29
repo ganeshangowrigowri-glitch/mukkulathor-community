@@ -3,13 +3,13 @@ import clsx from 'clsx'
 import {
   LayoutDashboard, User, Users, GitBranch, Image, CalendarDays, Bell, ShieldCheck,
   Settings, ClipboardList, UserCheck, UserCog, Megaphone, BarChart3, Search, Download,
-  Cog, FileText, History,Wrench, Award, Users2,
+   Cog, FileText, History,Wrench, Award, Users2, Heart,
 } from 'lucide-react'
 
 const ICONS = {
   LayoutDashboard, User, Users, GitBranch, Image, CalendarDays, Bell, ShieldCheck,
   Settings, ClipboardList, UserCheck, UserCog, Megaphone, BarChart3, Search, Download,
-  Cog, FileText, History,Wrench, Award, Users2,
+  Cog, FileText, History,Wrench, Award, Users2, Heart,
 }
 
 export const NAV_BY_ROLE = {
@@ -22,6 +22,7 @@ export const NAV_BY_ROLE = {
     { to: '/member/events', label: 'Events', icon: 'CalendarDays' },
     { to: '/member/notices', label: 'Notices', icon: 'Megaphone' },
     { to: '/member/gallery', label: 'Gallery', icon: 'Image' },
+    { to: '/member/matrimony', label: 'Matrimony', icon: 'Heart' },
     { to: '/member/status', label: 'Membership Status', icon: 'ClipboardList' },
     { to: '/member/edit-profile', label: 'Edit Profile', icon: 'FileText' },
     { to: '/member/notifications', label: 'Notifications', icon: 'Bell' },

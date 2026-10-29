@@ -36,6 +36,13 @@ const Gallery = lazy(() => import('./pages/member/Gallery'))
 const MembershipStatus = lazy(() => import('./pages/member/MembershipStatus'))
 const Notifications = lazy(() => import('./pages/member/Notifications'))
 const Settings = lazy(() => import('./pages/member/Settings'))
+const MatrimonyLayout = lazy(() => import('./pages/member/matrimony/MatrimonyLayout'))
+const MatrimonyDashboard = lazy(() => import('./pages/member/matrimony/MatrimonyDashboard'))
+const MatrimonyBrowse = lazy(() => import('./pages/member/matrimony/MatrimonyBrowse'))
+const MatrimonyMyProfile = lazy(() => import('./pages/member/matrimony/MatrimonyMyProfile'))
+const MatrimonyShortlist = lazy(() => import('./pages/member/matrimony/MatrimonyShortlist'))
+const MatrimonyRequests = lazy(() => import('./pages/member/matrimony/MatrimonyRequests'))
+const MatrimonyPrivacy = lazy(() => import('./pages/member/matrimony/MatrimonyPrivacy'))
 const RefereeDashboard = lazy(() => import('./pages/referee/Dashboard'))
 const ReviewApplicants = lazy(() => import('./pages/referee/Review'))
 
@@ -130,6 +137,14 @@ export default function App() {
               <Route path="/member/profile" element={<Suspense fallback={<PageLoader />}><MemberProfile /></Suspense>} />
               <Route path="/member/edit-profile" element={<Suspense fallback={<PageLoader />}><EditProfile /></Suspense>} />
               <Route path="/member/community" element={<Suspense fallback={<PageLoader />}><CommunityDetails /></Suspense>} />
+               <Route path="/member/matrimony" element={<Suspense fallback={<PageLoader />}><MatrimonyLayout /></Suspense>}>
+                <Route index element={<Suspense fallback={<PageLoader />}><MatrimonyDashboard /></Suspense>} />
+                <Route path="browse" element={<Suspense fallback={<PageLoader />}><MatrimonyBrowse /></Suspense>} />
+                <Route path="my-profile" element={<Suspense fallback={<PageLoader />}><MatrimonyMyProfile /></Suspense>} />
+                <Route path="shortlist" element={<Suspense fallback={<PageLoader />}><MatrimonyShortlist /></Suspense>} />
+                <Route path="requests" element={<Suspense fallback={<PageLoader />}><MatrimonyRequests /></Suspense>} />
+                <Route path="privacy" element={<Suspense fallback={<PageLoader />}><MatrimonyPrivacy /></Suspense>} />
+              </Route>
               <Route path="/member/family-tree" element={<Suspense fallback={<PageLoader />}><FamilyTree /></Suspense>} />
               <Route path="/member/family-members" element={<Suspense fallback={<PageLoader />}><FamilyMembers /></Suspense>} />
               <Route path="/member/events" element={<Suspense fallback={<PageLoader />}><MemberEvents /></Suspense>} />

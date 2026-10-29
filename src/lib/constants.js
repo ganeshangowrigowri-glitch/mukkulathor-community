@@ -159,3 +159,26 @@ export const STORAGE_BUCKETS = {
   ACHIEVER_PHOTOS: 'achiever-photos',
   SOCIETY_PHOTOS: 'society-photos',
 }
+// ---- Matrimony ----
+export const MATRIMONY_MARITAL = [
+  { value: 'never_married', label: 'Never married' },
+  { value: 'divorced', label: 'Divorced' },
+  { value: 'widowed', label: 'Widowed' },
+]
+export const MATRIMONY_DIET = [
+  { value: 'vegetarian', label: 'Vegetarian' },
+  { value: 'non_vegetarian', label: 'Non-vegetarian' },
+  { value: 'eggetarian', label: 'Eggetarian' },
+  { value: 'occasionally_vegetarian', label: 'Vegetarian on festival days' },
+]
+export const MATRIMONY_JATHAKAM = [
+  { value: 'shuddha', label: 'Shuddha Jathakam' },
+  { value: 'dosham', label: 'Has Dosham' },
+  { value: 'unknown', label: 'Not known' },
+]
+export const MATRIMONY_INTEREST_BADGE = {
+  pending: 'amber', accepted: 'green', declined: 'red', withdrawn: 'grey', revoked: 'grey',
+}
+export const MATRIMONY_INTEREST_LABEL = {
+  pending: 'Pending', accepted: 'Accepted', declined: 'Declined', withdrawn: 'Withdrawn', revoked: 'Revoked',
+}
