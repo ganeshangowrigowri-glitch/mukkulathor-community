@@ -2,9 +2,8 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Lock, Eye, Bell, Loader2 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { updateNotificationPreferences, updateDirectoryVisibility, changePassword } from '../../services/settingsService'
+import { updateNotificationPreferences, updateDirectoryVisibility } from '../../services/settingsService'
 import { Card } from '../../components/ui/Card'
-import Input from '../../components/ui/Input'
 import FadeIn from '../../components/ui/FadeIn'
 
 const DEFAULT_PREFS = { email_notifications: true, event_reminders: true, notice_alerts: true, referee_updates: true }
@@ -37,8 +36,7 @@ export default function Settings() {
   const [visible, setVisible] = useState(profile?.is_directory_visible !== false)
   const [savingPrefs, setSavingPrefs] = useState(false)
   const [savingVisibility, setSavingVisibility] = useState(false)
-  const [pwForm, setPwForm] = useState({ newPassword: '', confirmPassword: '' })
-  const [changingPw, setChangingPw] = useState(false)
+
 
   if (!profile) return null
 
@@ -69,27 +67,6 @@ export default function Settings() {
     }
   }
 
-  async function handlePasswordChange(e) {
-    e.preventDefault()
-    if (pwForm.newPassword.length < 8) {
-      toast.error('Password must be at least 8 characters')
-      return
-    }
-    if (pwForm.newPassword !== pwForm.confirmPassword) {
-      toast.error('Passwords do not match')
-      return
-    }
-    setChangingPw(true)
-    try {
-      await changePassword(pwForm.newPassword)
-      toast.success('Password updated')
-      setPwForm({ newPassword: '', confirmPassword: '' })
-    } catch (err) {
-      toast.error(err.message || 'Could not update password')
-    } finally {
-      setChangingPw(false)
-    }
-  }
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -127,17 +104,11 @@ export default function Settings() {
 
       <FadeIn delay={150}>
         <Card>
-          <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-navy-900">
-            <Lock size={18} className="text-navy-700" /> Account &amp; Password
+           <h3 className="mb-4 flex items-center gap-2 font-display text-lg font-semibold text-navy-900">
+            <Lock size={18} className="text-navy-700" /> Account
           </h3>
-          <p className="mb-4 text-sm text-slate-500">Signed in as <span className="font-medium text-slate-700">{user?.email}</span></p>
-          <form onSubmit={handlePasswordChange} className="space-y-4">
-            <Input type="password" label="New Password" required hint="At least 8 characters" value={pwForm.newPassword} onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })} />
-            <Input type="password" label="Confirm New Password" required value={pwForm.confirmPassword} onChange={(e) => setPwForm({ ...pwForm, confirmPassword: e.target.value })} />
-            <button type="submit" disabled={changingPw} className="btn-primary w-full sm:w-auto">
-              {changingPw ? 'Updating…' : 'Update Password'}
-            </button>
-          </form>
+          <p className="text-sm text-slate-500">Signed in as <span className="font-medium text-slate-700">{user?.email}</span></p>
+          <p className="mt-2 text-xs text-slate-400">You sign in with your full name and email</p>
         </Card>
       </FadeIn>
     </div>
