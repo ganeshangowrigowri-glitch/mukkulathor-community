@@ -63,11 +63,26 @@ export default function RefereesSection({ selected, onChange, error }) {
                   disabled={disableUnselected}
                   onChange={() => toggle(ref.id)}
                 />
-                <div>
+                   <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-navy-100 text-lg font-semibold text-navy-700">
+                  {ref.profiles?.profile_photo_url ? (
+                    <img src={ref.profiles.profile_photo_url} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    ref.profiles?.full_name?.[0]?.toUpperCase()
+                  )}
+                </div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold text-navy-900">{ref.profiles?.full_name}</p>
                   <p className="text-xs text-slate-500">
                     {ref.designation || 'Referee'} {ref.region ? `· ${ref.region}` : ''}
                   </p>
+                  {ref.profiles?.occupation && (
+                    <p className="text-xs text-slate-500">{ref.profiles.occupation}</p>
+                  )}
+                  {(ref.profiles?.address || ref.profiles?.village || ref.profiles?.district) && (
+                    <p className="text-xs text-slate-500">
+                      {[ref.profiles.address, ref.profiles.village, ref.profiles.district].filter(Boolean).join(', ')}
+                    </p>
+                  )}
                   <p className="text-xs capitalize text-slate-400">{ref.profiles?.branch}</p>
                 </div>
               </label>

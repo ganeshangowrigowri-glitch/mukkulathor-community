@@ -6,11 +6,19 @@ import { supabase } from '../lib/supabaseClient'
 export async function listActiveReferees() {
   const { data, error } = await supabase.rpc('list_active_referees')
   if (error) throw error
-  return (data ?? []).map((r) => ({
-    id: r.id,
+   return (data ?? []).map((r) => ({
+    id: r.id ?? r.referee_id,
     designation: r.designation,
     region: r.region,
-    profiles: { full_name: r.full_name, branch: r.branch, district: r.district },
+    profiles: {
+      full_name: r.full_name,
+      branch: r.branch,
+      district: r.district,
+      address: r.address,
+      village: r.village,
+      occupation: r.occupation,
+      profile_photo_url: r.profile_photo_url,
+    },
   }))
 }
 
