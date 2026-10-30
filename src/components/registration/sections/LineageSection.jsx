@@ -1,11 +1,19 @@
-import { useWatch } from 'react-hook-form'
+import { useState } from 'react'
+import { useWatch, useController } from 'react-hook-form'
 import Input from '../../ui/Input'
 import Select from '../../ui/Select'
 import CountryRadio from '../../ui/CountryRadio'
 import { BRANCHES, SUB_CLANS_BY_BRANCH, TITLES_BY_BRANCH, GOTHRAMS } from '../../../lib/constants'
 
+const OTHER = '__other__'
+
 function toOptions(list) {
   return list.map((v) => ({ value: v, label: v }))
+}
+
+// Dropdown options plus an "Other" entry at the end
+function withOther(list) {
+  return [...toOptions(list), { value: OTHER, label: 'Other' }]
 }
 
 /**
@@ -26,8 +34,59 @@ function toOptions(list) {
  */
 export default function LineageSection({ register, control, prefix = '', title }) {
   const branch = useWatch({ control, name: `${prefix}branch` })
-  const subClanOptions = branch ? toOptions(SUB_CLANS_BY_BRANCH[branch] || []) : []
-  const titleOptions = branch ? toOptions(TITLES_BY_BRANCH[branch] || []) : []
+
+  const subClanList = branch ? SUB_CLANS_BY_BRANCH[branch] || [] : []
+  const titleList = branch ? TITLES_BY_BRANCH[branch] || [] : []
+  const subClanOptions = branch ? withOther(subClanList) : []
+  const titleOptions = branch ? withOther(titleList) : []
+
+  const { field: subClanField } = useController({ control, name: `${prefix}sub_clan` })
+   const { field: titleField } = useController({ control, name: `${prefix}title` })
+  const { field: gothramField } = useController({ control, name: `${prefix}gothram` })
+
+  // Start in "Other" mode if a saved value isn't in the dropdown list
+  const [subClanOther, setSubClanOther] = useState(
+    !!subClanField.value && !subClanList.includes(subClanField.value)
+  )
+  const [titleOther, setTitleOther] = useState(
+    !!titleField.value && !titleList.includes(titleField.value)
+  )
+
+  function handleSubClanSelect(e) {
+    const v = e.target.value
+    if (v === OTHER) {
+      setSubClanOther(true)
+      subClanField.onChange('')
+    } else {
+      setSubClanOther(false)
+      subClanField.onChange(v)
+    }
+  }
+
+  function handleTitleSelect(e) {
+    const v = e.target.value
+    if (v === OTHER) {
+      setTitleOther(true)
+      titleField.onChange('')
+    } else {
+      setTitleOther(false)
+      titleField.onChange(v)
+    }
+  }
+    const [gothramOther, setGothramOther] = useState(
+    !!gothramField.value && !GOTHRAMS.includes(gothramField.value)
+  )
+
+  function handleGothramSelect(e) {
+    const v = e.target.value
+    if (v === OTHER) {
+      setGothramOther(true)
+      gothramField.onChange('')
+    } else {
+      setGothramOther(false)
+      gothramField.onChange(v)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -62,22 +121,44 @@ export default function LineageSection({ register, control, prefix = '', title }
       {/* Branch / Sub-clan / Title */}
       <div className="rounded-sm2 border border-slate-200 p-4">
         <h3 className="mb-3 text-sm font-semibold text-navy-800">Branch, Sub-Clan &amp; Title</h3>
-        <div className="grid gap-4 sm:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-3">
           <Select label="Branch (Kilai)" options={BRANCHES} placeholder="Select branch" {...register(`${prefix}branch`)} />
           <Select
             label="Sub-Clan (Piriu)"
             options={subClanOptions}
             placeholder={branch ? 'Select sub-clan' : 'Select a branch first'}
             disabled={!branch}
-            {...register(`${prefix}sub_clan`)}
+            value={subClanOther ? OTHER : subClanField.value || ''}
+            onChange={handleSubClanSelect}
+            onBlur={subClanField.onBlur}
           />
           <Select
             label="Title (Pattam)"
             options={titleOptions}
             placeholder={branch ? 'Select title' : 'Select a branch first'}
             disabled={!branch}
-            {...register(`${prefix}title`)}
+            value={titleOther ? OTHER : titleField.value || ''}
+            onChange={handleTitleSelect}
+            onBlur={titleField.onBlur}
           />
+          {subClanOther && (
+            <Input
+              label="Type your Sub-Clan (Piriu)"
+              placeholder="Enter your sub-clan"
+              value={subClanField.value || ''}
+              onChange={subClanField.onChange}
+              onBlur={subClanField.onBlur}
+            />
+          )}
+          {titleOther && (
+            <Input
+              label="Type your Title (Pattam)"
+              placeholder="Enter your title"
+              value={titleField.value || ''}
+              onChange={titleField.onChange}
+              onBlur={titleField.onBlur}
+            />
+          )}
         </div>
       </div>
 
@@ -95,9 +176,25 @@ export default function LineageSection({ register, control, prefix = '', title }
         </div>
       </div>
 
-      {/* Gothram */}
+         {/* Gothram */}
       <div className="grid gap-4 sm:grid-cols-2">
-        <Select label="Gothram" options={toOptions(GOTHRAMS)} placeholder="Select gothram" {...register(`${prefix}gothram`)} />
+        <Select
+          label="Gothram"
+          options={withOther(GOTHRAMS)}
+          placeholder="Select gothram"
+          value={gothramOther ? OTHER : gothramField.value || ''}
+          onChange={handleGothramSelect}
+          onBlur={gothramField.onBlur}
+        />
+        {gothramOther && (
+          <Input
+            label="Type your Gothram"
+            placeholder="Enter your gothram"
+            value={gothramField.value || ''}
+            onChange={gothramField.onChange}
+            onBlur={gothramField.onBlur}
+          />
+        )}
       </div>
 
       {/* Father */}
