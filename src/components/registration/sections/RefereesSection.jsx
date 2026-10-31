@@ -75,8 +75,20 @@ export default function RefereesSection({ selected, onChange, error }) {
                   <p className="text-xs text-slate-500">
                     {ref.designation || 'Referee'} {ref.region ? `· ${ref.region}` : ''}
                   </p>
-                  {ref.profiles?.occupation && (
+                    {ref.profiles?.occupation && (
                     <p className="text-xs text-slate-500">{ref.profiles.occupation}</p>
+                  )}
+                  {ref.profiles?.father_name && (
+                    <p className="text-xs text-slate-500">Father: {ref.profiles.father_name}</p>
+                  )}
+                  {(ref.profiles?.kulam || ref.profiles?.gothram || ref.profiles?.caste) && (
+                    <p className="text-xs text-slate-500">
+                      {[
+                        ref.profiles.kulam && `Kulam: ${ref.profiles.kulam}`,
+                        ref.profiles.gothram && `Gothram: ${ref.profiles.gothram}`,
+                        ref.profiles.caste && `Caste: ${ref.profiles.caste}`,
+                      ].filter(Boolean).join(' · ')}
+                    </p>
                   )}
                   {(ref.profiles?.address || ref.profiles?.village || ref.profiles?.district) && (
                     <p className="text-xs text-slate-500">

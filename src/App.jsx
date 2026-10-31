@@ -17,6 +17,7 @@ import EventsPublic from './pages/public/EventsPublic'
 import GalleryPublic from './pages/public/GalleryPublic'
 import Contact from './pages/public/Contact'
 import Login from './pages/public/Login'
+import StaffLogin from './pages/public/StaffLogin'
 
 import RegistrationWizard from './components/registration/RegistrationWizard'
 import DashboardLayout from './components/layout/DashboardLayout'
@@ -96,6 +97,8 @@ export default function App() {
           <Route path="/gallery" element={<GalleryPublic />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<StaffLogin portal="admin" />} />
+          <Route path="/referee-login" element={<StaffLogin portal="referee" />} />
           <Route path="/register" element={<Navigate to="/login" replace />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>
@@ -162,8 +165,8 @@ export default function App() {
               <Route path="/admin/manage-members" element={<Suspense fallback={<PageLoader />}><ManageMembers /></Suspense>} />
               <Route path="/admin/manage-referees" element={<Suspense fallback={<PageLoader />}><ManageReferees /></Suspense>} />
               <Route path="/admin/services" element={<Suspense fallback={<PageLoader />}><ManageServices /></Suspense>} />
-<Route path="/admin/achievers" element={<Suspense fallback={<PageLoader />}><ManageAchievers /></Suspense>} />
-<Route path="/admin/societies" element={<Suspense fallback={<PageLoader />}><ManageSocieties /></Suspense>} />
+              <Route path="/admin/achievers" element={<Suspense fallback={<PageLoader />}><ManageAchievers /></Suspense>} />
+              <Route path="/admin/societies" element={<Suspense fallback={<PageLoader />}><ManageSocieties /></Suspense>} />
               <Route path="/admin/manage-events" element={<Suspense fallback={<PageLoader />}><ManageEvents /></Suspense>} />
               <Route path="/admin/manage-notices" element={<Suspense fallback={<PageLoader />}><ManageNotices /></Suspense>} />
               <Route path="/admin/manage-gallery" element={<Suspense fallback={<PageLoader />}><ManageGallery /></Suspense>} />

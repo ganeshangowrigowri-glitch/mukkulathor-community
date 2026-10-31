@@ -16,8 +16,12 @@ export async function listActiveReferees() {
       district: r.district,
       address: r.address,
       village: r.village,
-      occupation: r.occupation,
+          occupation: r.occupation,
       profile_photo_url: r.profile_photo_url,
+      father_name: r.father_name,
+      kulam: r.kulam,
+      caste: r.caste,
+      gothram: r.gothram,
     },
   }))
 }

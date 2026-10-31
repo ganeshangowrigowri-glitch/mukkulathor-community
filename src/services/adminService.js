@@ -85,9 +85,27 @@ export async function promoteToReferee(profileId, designation, region) {
   if (error) throw error
 }
 
-export async function setRefereeActive(refereeRowId, isActive) {
-  const { error } = await supabase.from('referees').update({ is_active: isActive }).eq('id', refereeRowId)
-  if (error) throw error
+async function invokeAdminFn(name, body) {
+  const { data, error } = await supabase.functions.invoke(name, { body })
+  if (error) {
+    let message = error.message
+    try {
+      const j = await error.context.json()
+      if (j?.error) message = j.error
+    } catch { /* keep default message */ }
+    throw new Error(message)
+  }
+  if (data?.error) throw new Error(data.error)
+  return data
+}
+
+// Now takes the referee's PROFILE id (not the referees row id)
+export async function setRefereeActive(profileId, isActive) {
+  return invokeAdminFn('manage-referee-account', { action: 'set_active', profile_id: profileId, is_active: isActive })
+}
+
+export async function resetRefereeCredentials(profileId, { username, password }) {
+  return invokeAdminFn('manage-referee-account', { action: 'set_credentials', profile_id: profileId, username, password })
 }
 
 // FIXED: was `profiles(full_name, email, branch, district, username, mobile, notification_email)`
@@ -114,12 +132,7 @@ async function uploadRefereePhotoIfNeeded(file) {
 
 export async function createReferee(payload, file) {
   const profile_image_url = await uploadRefereePhotoIfNeeded(file)
-  const { data, error } = await supabase.functions.invoke('create-referee', {
-    body: { ...payload, profile_image_url },
-  })
-  if (error) throw error
-  if (data?.error) throw new Error(data.error)
-  return data
+   return invokeAdminFn('create-referee', { ...payload, profile_image_url })
 }
 
 export async function updateReferee(refereeRowId, profileId, { profileUpdates, refereeUpdates }, file) {

@@ -28,13 +28,17 @@ Deno.serve(async (req) => {
     });
 
     const { data: existingProfile, error: lookupError } = await supabase
-      .from("profiles").select("id, full_name, email").ilike("email", cleanEmail).maybeSingle();
+    .from("profiles").select("id, full_name, email, role_id").ilike("email", cleanEmail).maybeSingle();
     if (lookupError) return json({ ok: false, error: "Something went wrong looking up your account." }, 500);
 
     let isNew = false;
-    if (existingProfile) {
+          if (existingProfile) {
       if (normalizeName(existingProfile.full_name) !== normalizeName(cleanName)) {
         return json({ ok: false, error: "We couldn't find a matching account. Check your full name and email." }, 401);
+      }
+      // Admin and referee accounts must use their own login pages
+      if (existingProfile.role_id !== 1) {
+        return json({ ok: false, error: "This account must sign in from the staff login page." }, 403);
       }
     } else {
       isNew = true;
@@ -46,7 +50,6 @@ Deno.serve(async (req) => {
       });
       if (createError) return json({ ok: false, error: createError.message }, 400);
     }
-
     const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
       type: "magiclink", email: cleanEmail,
     });

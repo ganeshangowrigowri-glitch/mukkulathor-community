@@ -47,16 +47,20 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const {
-      full_name, username, password, email, mobile, designation, region,
+      const {
+      full_name, username: rawUsername, password, email, mobile, designation, region,
       father_name, kulam, caste, gothram, occupation, profile_image_url,
     } = body ?? {};
+    const username = String(rawUsername ?? "").trim().toLowerCase();
 
     if (!full_name || !username || !password || !email) {
       return json({ error: "full_name, username, password and email are required" }, 400);
     }
-    if (String(password).length < 8) {
-      return json({ error: "Password must be at least 8 characters" }, 400);
+       if (!/^[a-z0-9._-]{3,32}$/.test(username)) {
+      return json({ error: "Username must be 3-32 characters: lowercase letters, numbers, dots, dashes or underscores" }, 400);
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d).{10,72}$/.test(String(password))) {
+      return json({ error: "Password must be 10-72 characters and include at least one letter and one number" }, 400);
     }
 
     const { data: existingUsername } = await admin

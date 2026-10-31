@@ -12,7 +12,12 @@ export default function ProtectedRoute() {
   const location = useLocation()
 
   if (loading) return <PageLoader />
-  if (!session) return <Navigate to="/login" state={{ from: location }} replace />
+   const loginPath = location.pathname.startsWith('/admin')
+    ? '/admin-login'
+    : location.pathname.startsWith('/referee')
+      ? '/referee-login'
+      : '/login'
+  if (!session) return <Navigate to={loginPath} state={{ from: location }} replace />
 
   return <Outlet />
 }

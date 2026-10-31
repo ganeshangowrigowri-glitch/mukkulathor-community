@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
-import { UserCog, Plus, Power, Pencil, Trash2 } from 'lucide-react'
+import { UserCog, Plus, Power, Pencil, Trash2, KeyRound } from 'lucide-react'
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
 import {
   listAllReferees, setRefereeActive, promoteToReferee, adminSearchProfiles,
-  createReferee, updateReferee, deleteReferee,
+  createReferee, updateReferee, deleteReferee, resetRefereeCredentials,
 } from '../../services/adminService'
 import FadeIn from '../../components/ui/FadeIn'
 import DataTable from '../../components/ui/DataTable'
@@ -52,17 +52,47 @@ export default function ManageReferees() {
   // Delete
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
+    // Reset credentials
+  const [resetTarget, setResetTarget] = useState(null)
+  const [resetForm, setResetForm] = useState({ username: '', password: '' })
+  const [resetting, setResetting] = useState(false)
 
   async function handleToggle(ref) {
     setTogglingId(ref.id)
     try {
-      await setRefereeActive(ref.id, !ref.is_active)
+      await setRefereeActive(ref.profile_id, !ref.is_active)
       toast.success(ref.is_active ? 'Referee deactivated' : 'Referee activated')
       refetch()
     } catch (err) {
       toast.error(err.message || 'Could not update referee')
     } finally {
       setTogglingId(null)
+    }
+  }
+    function openReset(ref) {
+    setResetTarget(ref)
+    setResetForm({ username: ref.profiles?.username || '', password: '' })
+  }
+
+  async function handleReset() {
+    if (!/^[a-z0-9._-]{3,32}$/.test(resetForm.username.trim().toLowerCase())) {
+      toast.error('Username: 3-32 characters — letters, numbers, dots, dashes')
+      return
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d).{10,72}$/.test(resetForm.password)) {
+      toast.error('Password must be 10+ characters with at least one letter and one number')
+      return
+    }
+    setResetting(true)
+    try {
+      await resetRefereeCredentials(resetTarget.profile_id, resetForm)
+      toast.success('Referee login updated')
+      setResetTarget(null)
+      refetch()
+    } catch (err) {
+      toast.error(err.message || 'Could not update login')
+    } finally {
+      setResetting(false)
     }
   }
 
@@ -103,8 +133,12 @@ export default function ManageReferees() {
       toast.error('Full name, username, password and email are all required')
       return
     }
-    if (newRef.password.length < 8) {
-      toast.error('Password must be at least 8 characters')
+        if (!/^[a-z0-9._-]{3,32}$/.test(newRef.username.trim().toLowerCase())) {
+      toast.error('Username: 3-32 characters — letters, numbers, dots, dashes')
+      return
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d).{10,72}$/.test(newRef.password)) {
+      toast.error('Password must be 10+ characters with at least one letter and one number')
       return
     }
     setCreating(true)
@@ -243,8 +277,11 @@ export default function ManageReferees() {
             data={referees}
             actions={(row) => (
               <div className="flex items-center justify-end gap-1.5">
-                <button onClick={() => openEdit(row)} className="rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-navy-700" aria-label="Edit">
+                 <button onClick={() => openEdit(row)} className="rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-navy-700" aria-label="Edit">
                   <Pencil size={15} />
+                </button>
+                <button onClick={() => openReset(row)} className="rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-navy-700" aria-label="Reset password" title="Reset login / password">
+                  <KeyRound size={15} />
                 </button>
                 <button
                   onClick={() => handleToggle(row)}
@@ -261,7 +298,23 @@ export default function ManageReferees() {
           />
         </FadeIn>
       )}
-
+             {/* Reset referee login */}
+      <Modal
+        open={!!resetTarget}
+        onClose={() => !resetting && setResetTarget(null)}
+        title="Reset Referee Login"
+        footer={
+          <>
+            <button className="btn-outline" onClick={() => setResetTarget(null)} disabled={resetting}>Cancel</button>
+            <button className="btn-primary" onClick={handleReset} disabled={resetting}>{resetting ? 'Saving…' : 'Save'}</button>
+          </>
+        }
+      >
+        <div className="space-y-3">
+          <Input label="Username" required hint="Lowercase letters, numbers, dots, dashes" value={resetForm.username} onChange={(e) => setResetForm({ ...resetForm, username: e.target.value })} />
+          <Input label="New Password" type="password" required hint="10+ characters, with a letter and a number" value={resetForm.password} onChange={(e) => setResetForm({ ...resetForm, password: e.target.value })} />
+        </div>
+      </Modal>
       {/* Promote existing member */}
       <Modal
         open={promoteOpen}
@@ -317,7 +370,7 @@ export default function ManageReferees() {
           <div className="grid gap-3 sm:grid-cols-2">
             <Input label="Full Name" required value={newRef.full_name} onChange={(e) => setNewRef({ ...newRef, full_name: e.target.value })} />
             <Input label="Username" required hint="Used to log in — letters, numbers, dots, dashes" value={newRef.username} onChange={(e) => setNewRef({ ...newRef, username: e.target.value })} />
-            <Input label="Password" type="password" required hint="At least 8 characters" value={newRef.password} onChange={(e) => setNewRef({ ...newRef, password: e.target.value })} />
+            <Input label="Password" type="password" required hint="10+ characters, with a letter and a number" value={newRef.password}onChange={(e) => setNewRef({ ...newRef, password: e.target.value })} />
             <Input label="Email Address" type="email" required hint="For notifications only — not used to log in" value={newRef.email} onChange={(e) => setNewRef({ ...newRef, email: e.target.value })} />
             <Input label="Contact Number" value={newRef.mobile} onChange={(e) => setNewRef({ ...newRef, mobile: e.target.value })} />
             <Input label="Place" placeholder="e.g. Colombo" value={newRef.region} onChange={(e) => setNewRef({ ...newRef, region: e.target.value })} />
@@ -343,7 +396,7 @@ export default function ManageReferees() {
         footer={
           <>
             <button className="btn-outline" onClick={() => setEditing(null)} disabled={saving}>Cancel</button>
-            <button className="btn-primary" onClick={handleSaveEdit} disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</button>
+           <button className="btn-primary" onClick={handleSaveEdit} disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</button>
           </>
         }
       >

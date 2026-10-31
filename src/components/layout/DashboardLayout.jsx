@@ -51,11 +51,11 @@ export default function DashboardLayout() {
     setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })))
   }
 
-  async function handleSignOut() {
+   async function handleSignOut() {
+    const dest = role === 'admin' ? '/admin-login' : role === 'referee' ? '/referee-login' : '/login'
     await signOut()
-    navigate('/login')
+    navigate(dest)
   }
-
   return (
     <div className="min-h-screen bg-linen-50">
       <div className="flex">
