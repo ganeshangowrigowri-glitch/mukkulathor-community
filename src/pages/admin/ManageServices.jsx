@@ -86,7 +86,7 @@ export default function ManageServices() {
         <div>
           <h1 className="font-display text-2xl font-semibold text-navy-900">Manage Services</h1>
           <p className="mt-1 text-sm text-slate-500">
-            These appear automatically on the public website and member dashboard — no code changes needed.
+            These appear automatically on the public website and member dashboard.
           </p>
         </div>
         <button onClick={openCreate} className="btn-primary w-full sm:w-auto"><Plus size={15} /> Add Service</button>
